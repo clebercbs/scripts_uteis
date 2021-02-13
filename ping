@@ -3,10 +3,10 @@
 
 import os, re
 print("Verificando conexao...")
-ip_list = ['X.X.X.X', 'X.X.X.X']
-for l in ip_list:
+for ping in range(1,254):
+    address = "192.168.1." + str(ping)
     file = open('ping.txt', 'a')
-    cmd = "ping -c10 " + l
+    cmd = "ping -c1 " + address
     r = "".join(os.popen(cmd).readlines())
     file.write(r)
     file.close()
