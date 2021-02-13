@@ -3,7 +3,7 @@
 
 import os, re
 print("Verificando conexao...")
-ip_list = ['8.8.8.8', '8.8.4.4']
+ip_list = ['X.X.X.X', 'X.X.X.X']
 for l in ip_list:
     file = open('ping.txt', 'a')
     cmd = "ping -c10 " + l
