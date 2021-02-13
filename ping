@@ -1,0 +1,21 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import os, re
+print("Verificando conexao...")
+ip_list = ['8.8.8.8', '8.8.4.4']
+for l in ip_list:
+    file = open('ping.txt', 'a')
+    cmd = "ping -c10 " + l
+    r = "".join(os.popen(cmd).readlines())
+    file.write(r)
+    file.close()
+with open("ping.txt", "r") as myfile:
+    data = myfile.readlines()
+    for d in data:
+        if re.search("ping statistics", d):
+            print(d)
+        elif re.search("packets transmitted", d):
+            print(d)
+        elif re.search("min/avg/max/mdev", d):
+            print(d)
