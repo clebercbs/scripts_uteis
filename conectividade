@@ -1,0 +1,31 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+import requests
+import os, re
+from datetime import datetime
+
+now = datetime.now()
+address = "192.168.100.1"
+cmd = "ping -c1 " + address
+r = "".join(os.popen(cmd).readlines())
+if re.search("1 received", r):
+    rede = "Rede interna ok! "
+else:
+    rede = "Rede interna não ok! "
+try:
+    r = requests.get("https://google.com")    
+    if r.text:
+        internet = "Internet ok! "
+except:    
+    internet = "Internet não ok! "    
+arquivo = open("conectividade.txt", "a")
+arquivo.write(str(internet))
+arquivo.write(str(now))
+arquivo.write("\n")
+arquivo.write(str(rede))
+arquivo.write(str(now))
+arquivo.write("\n")
+del r
+del internet
+del rede
