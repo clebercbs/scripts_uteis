@@ -1,31 +1,53 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 
-import requests
+#import tkinter as tk
+from tkinter import messagebox
+import urllib.request
 import os, re
+import time
 from datetime import datetime
 
+print("Testando conexão...")
 now = datetime.now()
-address = "192.168.100.1"
-cmd = "ping -c1 " + address
+tempo = now.strftime("%d/%m/%Y, %H:%M:%S")
+net = "192.168.5.253"
+mpls = "192.168.15.200"
+cmd = "ping " + net
+cmd2 = "ping " + mpls
 r = "".join(os.popen(cmd).readlines())
-if re.search("1 received", r):
-    rede = "Rede interna ok! "
-else:
-    rede = "Rede interna não ok! "
+s = "".join(os.popen(cmd2).readlines())
 try:
-    r = requests.get("https://google.com")    
-    if r.text:
-        internet = "Internet ok! "
-except:    
-    internet = "Internet não ok! "    
-arquivo = open("conectividade.txt", "a")
-arquivo.write(str(internet))
-arquivo.write(str(now))
-arquivo.write("\n")
-arquivo.write(str(rede))
-arquivo.write(str(now))
-arquivo.write("\n")
-del r
-del internet
-del rede
+    t = urllib.request.urlopen("http://www.google.com").getcode()
+    if t == 200:
+        INTERNET = "INTERNET OK! "
+        messagebox.showinfo("Conectividade", INTERNET)
+except:
+    INTERNET = "INTERNET NÃO OK! "
+    messagebox.showerror("Conectividade", INTERNET)
+if re.search("Recebidos = 4", s):
+    MPLS = "REDE MPLS OK! "
+    messagebox.showinfo("Conectividade", MPLS)
+else:
+    MPLS = "REDE MPLS NÃO OK! " 
+    messagebox.showerror("Conectividade", MPLS)
+if re.search("Recebidos = 4", r):
+    REDE_LOCAL = "REDE LOCAL OK! "
+    messagebox.showinfo("Conectividade", REDE_LOCAL )
+else:
+    REDE_LOCAL = "REDE LOCAL NÃO OK! "
+    messagebox.showerror("Conectividade", REDE_LOCAL)
+with open('conectividade.txt', 'a') as arquivo:
+    arquivo.write(str(INTERNET))
+    arquivo.write(str(tempo))
+    arquivo.write("\n")
+    arquivo.write(str(REDE_LOCAL))
+    arquivo.write(str(tempo))
+    arquivo.write("\n")
+    arquivo.write(str(MPLS))
+    arquivo.write(str(tempo))
+    arquivo.write("\n")
+    arquivo.close()
+del INTERNET
+del REDE_LOCAL
+del MPLS
