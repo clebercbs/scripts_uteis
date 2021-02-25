@@ -11,8 +11,8 @@ from datetime import datetime
 print("Testando conexão...")
 now = datetime.now()
 tempo = now.strftime("%d/%m/%Y, %H:%M:%S")
-net = "192.168.5.253"
-mpls = "192.168.15.200"
+net = "xxx.xxx.xxx.xxx"
+mpls = "xxx.xxx.xxx.xxx"
 cmd = "ping " + net
 cmd2 = "ping " + mpls
 r = "".join(os.popen(cmd).readlines())
