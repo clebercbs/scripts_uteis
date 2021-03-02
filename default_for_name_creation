@@ -1,0 +1,22 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+print( 
+    "Script for creating username. Standard 07 characters"    
+    )
+
+prep = ["do", "da", "de", "dos", "das"]
+user = []
+
+def fullname(n):
+    name = n
+    n = name.split()
+    user = [word[0] for word in n if word not in prep ]
+    del(user[-1])
+    user.append(n[-1]) 
+    username = [''.join(user)]    
+    u = str(username)
+    en = u.replace("'", "")
+    print("The user name is:", name, "-", "username will be:", en[1:8].lower())
+n = input("Type the full name: ")
+fullname(n) 
