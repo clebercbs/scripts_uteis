@@ -2,6 +2,7 @@ from netmiko import ConnectHandler
 import sys
 import os, re
 
+#Colocar os IPs no arquivo hosts (um por linha)
 lista = open(b"hosts","r")
 
 for item in lista:
@@ -16,5 +17,6 @@ for item in lista:
     Connect.enable()
 
     To_Issue = "Show cdp neighbor"
+    #Criação do arquivo vizinhos para que seja salvo os logs
     arquivo = open("vizinhos", "a")
     arquivo.write(Connect.send_command(To_Issue))
