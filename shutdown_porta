@@ -1,0 +1,39 @@
+#!/usr/bin/python
+# -*- coding: UTF-8 -*-
+
+from netmiko import ConnectHandler
+import sys, time
+import os, re
+
+lista = open(b"hosts","r")
+for item in lista:
+    Network_Device = {"host": item, 
+                  "username": "admin",
+                  "password": "admin",
+                  "device_type": "cisco_ios",
+                  "secret": "admin",
+                  }
+    Connect = ConnectHandler(**Network_Device)
+    Connect.enable()
+    To_Issue = "show running | beg hostname"
+    output = Connect.send_command(To_Issue)
+    print(output.split("\n")[1])
+    arquivo = open("vizinhos", "a") 
+    arquivo.write(output.split("\n")[1]  + '\n')
+    arquivo.close()
+    To_Issue = "Show ip int br"
+    output = Connect.send_command(To_Issue)
+    texto = output.split( '\n' )  
+    for i in texto:
+        if i.count("up") != 2 and len(i.split()) != 0 and  i.count("Interface") != 1:
+            interface = i.split()[0]
+            print(interface)
+            arquivo = open("vizinhos", "a") 
+            arquivo.write(interface + '\n')
+            arquivo.close()             
+            config_commands = ['interface' + " " + str(interface) ,'shutdown', 'end', 'wr']
+            saida = Connect.send_config_set(config_commands)
+    config_commands = ['end']  
+    saida = Connect.send_config_set(config_commands)
+            
+
